@@ -18,6 +18,136 @@
       </div>
     </header>
 
+    <main>
+      <section id="form-container" class="section-container">
+        <h2 id="form-title" class="section-title">
+          Record Greenhouse Sensor Reading
+        </h2>
+
+        <div id="form-error-message" aria-live="polite"></div>
+
+        <form action="#" id="sensor-form" novalidate>
+          <div class="form-group">
+            <label for="technician-first" class="form-label">
+              First Name
+              <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              name="technicianFirst"
+              id="technician-first"
+              class="form-input"
+              placeholder="John"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="technician-last" class="form-label">
+              Last Name
+              <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              name="technicianLast"
+              id="technician-last"
+              class="form-input"
+              placeholder="Smith"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="bay-id" class="form-label">
+              Greenhouse Bay
+              <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              name="bayId"
+              id="bay-id"
+              class="form-input"
+              placeholder="Bay A"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="ph-reading" class="form-label">
+              pH
+              <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              name="phReading"
+              id="ph-reading"
+              class="form-input sensor-input"
+              min="0"
+              max="14"
+              step="0.1"
+              placeholder="6.0"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="ec-reading" class="form-label">
+              Electrical Conductivity (mS/cm)
+              <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              name="ecReading"
+              id="ec-reading"
+              class="form-input sensor-input"
+              min="0"
+              step="0.1"
+              placeholder="1.5"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="temperature-reading" class="form-label">
+              Air Temperature (°F)
+              <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              name="temperatureReading"
+              id="temperature-reading"
+              class="form-input sensor-input"
+              step="0.1"
+              placeholder="68.0"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="humidity-reading" class="form-label">
+              Relative Humidity (%)
+              <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              name="humidityReading"
+              id="humidity-reading"
+              class="form-input sensor-input"
+              min="0"
+              max="100"
+              step="1"
+              placeholder="60"
+              required
+            />
+          </div>
+
+          <button type="submit" id="record-reading-btn" class="btn">
+            Record Reading
+          </button>
+        </form>
+      </section>
+    </main>
+
     <footer id="dashboard-footer">
       <p id="footer-copy">
         &copy; 2026 Greenhouse Logger, CSI-3150 Assignment-2B
