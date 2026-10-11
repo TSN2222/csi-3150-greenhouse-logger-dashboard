@@ -146,6 +146,24 @@
           </button>
         </form>
       </section>
+
+      <section id="records-container" class="section-container">
+        <header id="records-header">
+          <h2 id="records-title" class="section-title">Entries</h2>
+          <button id="clear-all-btn" class="btn" type="button">
+            Purge All Entries
+          </button>
+        </header>
+
+        <!-- Static empty state  -->
+        <div id="empty-state">
+          <span class="empty-icon" aria-hidden="true">📋</span>
+          <p>No active records logged.</p>
+        </div>
+
+        <!-- Dynamic populated state -->
+        <ul id="records-list" aria-live="polite"></ul>
+      </section>
     </main>
 
     <footer id="dashboard-footer">
