@@ -7,6 +7,7 @@
   --color-text-muted: #a5b39f;
   --color-border: #344332;
   --color-danger: #ff9385;
+  --color-warning: #f2cc60;
   --font-body:
     'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --border: 1px solid var(--color-border);
@@ -193,6 +194,10 @@ main {
   border-color: var(--color-primary);
 }
 
+.form-input.input-warning {
+  border-color: var(--color-warning);
+}
+
 .form-input[aria-invalid='true'] {
   border-color: var(--color-danger);
 }
@@ -250,14 +255,16 @@ main {
   border-bottom: var(--border);
 }
 
-#clear-all-btn {
+#clear-all-btn,
+.btn-delete {
   border-color: var(--color-border);
   background-color: transparent;
   color: var(--color-danger);
   font-size: 0.8rem;
 }
 
-#clear-all-btn:hover {
+#clear-all-btn:hover,
+.btn-delete:hover {
   border-color: var(--color-danger);
   background-color: rgb(255 147 133 / 8%);
 }
@@ -295,6 +302,61 @@ main {
 
 #records-list > li + li {
   border-top: var(--border);
+}
+
+.record-info {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.record-bay {
+  color: var(--color-primary);
+  font-size: 1rem;
+}
+
+.record-timestamp {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.status-badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid currentColor;
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.optimal {
+  color: var(--color-primary);
+}
+
+.warning {
+  color: var(--color-warning);
+}
+
+.critical {
+  color: var(--color-danger);
+}
+
+.sensor-stats {
+  display: flex;
+  flex: 2 1 26rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.stat-item {
+  flex: 1 1 5rem;
+}
+
+.stat-item span {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
 }
 
 #dashboard-footer {
