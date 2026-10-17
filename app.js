@@ -7,6 +7,7 @@
   const emptyState = document.getElementById('empty-state');
   const recordsList = document.getElementById('records-list');
   const errorBanner = document.getElementById('form-error-message');
+  const rangeMessage = document.getElementById('form-range-message');
   const sensorForm = document.getElementById('sensor-form');
   const clearAllBtn = document.getElementById('clear-all-btn');
 
@@ -42,6 +43,7 @@
     saveRecords();
     render();
     sensorForm.reset();
+    rangeMessage.textContent = '';
     inputs.forEach(function (input) {
       input.removeAttribute('aria-invalid');
       input.classList.remove('input-warning');
@@ -185,6 +187,7 @@
     });
 
     displayError(messages.join(' '));
+    rangeMessage.textContent = warnings.join(' ');
     return Object.keys(errors).length === 0;
   }
 
@@ -230,7 +233,6 @@
     records.forEach((rec) => {
       const li = document.createElement('li');
 
-      li.className = 'sensor-record';
       li.innerHTML = `
         <div class="record-info">
           <h3 class="record-bay">${escapeHtml(rec.bayId)}</h3>

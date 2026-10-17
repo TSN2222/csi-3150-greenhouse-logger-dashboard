@@ -225,11 +225,6 @@ main {
   background-color: var(--color-primary-hover);
 }
 
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 #record-reading-btn {
   grid-column: 1 / -1;
   justify-self: end;
@@ -242,6 +237,12 @@ main {
   border: 1px solid var(--color-danger);
   border-radius: var(--radius);
   color: var(--color-danger);
+  font-size: 0.9rem;
+}
+
+#form-range-message:not(:empty) {
+  margin-bottom: 1.25rem;
+  color: var(--color-warning);
   font-size: 0.9rem;
 }
 
