@@ -17,12 +17,21 @@
   const inputEc = document.getElementById('ec-reading');
   const inputTemperature = document.getElementById('temperature-reading');
   const inputHumidity = document.getElementById('humidity-reading');
+  const inputs = sensorForm.querySelectorAll('input');
+
+  const optimalRanges = {
+    phReading: { min: 5.5, max: 6.5, label: 'pH' },
+    ecReading: { min: 1.0, max: 2.0, label: 'EC (mS/cm)' },
+    temperatureReading: { min: 64.4, max: 71.6, label: 'Air temperature (F)' },
+    humidityReading: { min: 50, max: 70, label: 'Humidity (%)' },
+  };
 
   let records = loadRecords();
   render();
 
   sensorForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    if (!updateValidation(true)) return;
 
     const formData = getFormData();
     formData.id = crypto.randomUUID();
@@ -33,7 +42,15 @@
     saveRecords();
     render();
     sensorForm.reset();
+    inputs.forEach(function (input) {
+      input.removeAttribute('aria-invalid');
+      input.classList.remove('input-warning');
+    });
     inputFirstName.focus();
+  });
+
+  sensorForm.addEventListener('input', function (event) {
+    updateValidation(false, event.target);
   });
 
   clearAllBtn.addEventListener('click', function () {
@@ -131,6 +148,44 @@
     }
 
     return errors;
+  }
+
+  function updateValidation(showAll, changedInput) {
+    const data = getFormData();
+    const errors = validateInput(data);
+    const messages = [];
+    const warnings = [];
+
+    inputs.forEach(function (input) {
+      const range = optimalRanges[input.name];
+      if (!errors[input.name] && input.validity.stepMismatch) {
+        errors[input.name] =
+          `${range.label} must use increments of ${input.step}.`;
+      }
+
+      const showError =
+        showAll ||
+        input === changedInput ||
+        input.value !== '' ||
+        input.getAttribute('aria-invalid') === 'true';
+      const message = showError ? errors[input.name] : '';
+      input.setAttribute('aria-invalid', message ? 'true' : 'false');
+      if (message) messages.push(message);
+
+      const outsideOptimal =
+        range &&
+        !errors[input.name] &&
+        (data[input.name] < range.min || data[input.name] > range.max);
+      input.classList.toggle('input-warning', Boolean(outsideOptimal));
+      if (outsideOptimal) {
+        warnings.push(
+          `${range.label}: optimal range is ${range.min} to ${range.max}.`
+        );
+      }
+    });
+
+    displayError(messages.join(' '));
+    return Object.keys(errors).length === 0;
   }
 
   function evaluateStatus(data) {
