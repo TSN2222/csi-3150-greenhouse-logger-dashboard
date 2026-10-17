@@ -6,6 +6,7 @@
   const entriesCount = document.getElementById('entries-count');
   const emptyState = document.getElementById('empty-state');
   const recordsList = document.getElementById('records-list');
+  const errorBanner = document.getElementById('form-error-message');
 
   let records = loadRecords();
   render();
@@ -75,5 +76,15 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
+  }
+
+  function displayError(message) {
+    errorBanner.textContent = message;
+    errorBanner.hidden = false;
+  }
+
+  function hideError() {
+    errorBanner.textContent = '';
+    errorBanner.hidden = true;
   }
 })();
