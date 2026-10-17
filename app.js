@@ -8,6 +8,14 @@
   const recordsList = document.getElementById('records-list');
   const errorBanner = document.getElementById('form-error-message');
 
+  const inputFirstName = document.getElementById('technician-first');
+  const inputLastName = document.getElementById('technician-last');
+  const inputBay = document.getElementById('bay-id');
+  const inputPh = document.getElementById('ph-reading');
+  const inputEc = document.getElementById('ec-reading');
+  const inputTemperature = document.getElementById('temperature-reading');
+  const inputHumidity = document.getElementById('humidity-reading');
+
   let records = loadRecords();
   render();
 
@@ -27,6 +35,86 @@
     } catch (error) {
       console.error('Failed to write to your data store', error);
     }
+  }
+
+  function getFormData() {
+    return {
+      technicianFirst: inputFirstName.value.trim(),
+      technicianLast: inputLastName.value.trim(),
+      bayId: inputBay.value.trim(),
+      phReading: inputPh.valueAsNumber,
+      ecReading: inputEc.valueAsNumber,
+      temperatureReading: inputTemperature.valueAsNumber,
+      humidityReading: inputHumidity.valueAsNumber,
+    };
+  }
+
+  function validateInput(data) {
+    const errors = {};
+
+    if (!data.technicianFirst.trim()) {
+      errors.technicianFirst = 'First name is required.';
+    }
+    if (!data.technicianLast.trim()) {
+      errors.technicianLast = 'Last name is required.';
+    }
+    if (!data.bayId.trim()) {
+      errors.bayId = 'Greenhouse bay is required.';
+    }
+    if (
+      !Number.isFinite(data.phReading) ||
+      data.phReading < 0 ||
+      data.phReading > 14
+    ) {
+      errors.phReading = 'pH must be a number between 0 and 14.';
+    }
+    if (!Number.isFinite(data.ecReading) || data.ecReading < 0) {
+      errors.ecReading =
+        'Electrical conductivity must be a number greater than or equal to 0 mS/cm.';
+    }
+    if (
+      !Number.isFinite(data.temperatureReading) ||
+      data.temperatureReading < 0
+    ) {
+      errors.temperatureReading =
+        'Air temperature must be a number greater than or equal to 0 degrees Fahrenheit.';
+    }
+    if (
+      !Number.isInteger(data.humidityReading) ||
+      data.humidityReading < 0 ||
+      data.humidityReading > 100
+    ) {
+      errors.humidityReading =
+        'Relative humidity must be a whole number between 0 and 100%.';
+    }
+
+    return errors;
+  }
+
+  function evaluateStatus(data) {
+    if (
+      (data.phReading < 5.0 || data.phReading > 7.5) &&
+      (data.temperatureReading < 55 || data.temperatureReading > 95) &&
+      (data.ecReading < 0.2 || data.ecReading > 4.5) &&
+      (data.humidityReading < 30 || data.humidityReading > 90)
+    ) {
+      return { level: 'critical', label: 'Critical Hazard' };
+    }
+
+    if (
+      data.phReading >= 5.5 &&
+      data.phReading <= 6.5 &&
+      data.temperatureReading >= 64.4 &&
+      data.temperatureReading <= 71.6 &&
+      data.ecReading >= 1.0 &&
+      data.ecReading <= 2.0 &&
+      data.humidityReading >= 50 &&
+      data.humidityReading <= 70
+    ) {
+      return { level: 'optimal', label: 'Optimal' };
+    }
+
+    return { level: 'warning', label: 'Warning' };
   }
 
   function render() {
