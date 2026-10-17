@@ -7,6 +7,8 @@
   const emptyState = document.getElementById('empty-state');
   const recordsList = document.getElementById('records-list');
   const errorBanner = document.getElementById('form-error-message');
+  const sensorForm = document.getElementById('sensor-form');
+  const clearAllBtn = document.getElementById('clear-all-btn');
 
   const inputFirstName = document.getElementById('technician-first');
   const inputLastName = document.getElementById('technician-last');
@@ -18,6 +20,46 @@
 
   let records = loadRecords();
   render();
+
+  sensorForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = getFormData();
+    formData.id = crypto.randomUUID();
+    formData.timestamp = new Date().toLocaleTimeString();
+    formData.status = evaluateStatus(formData);
+
+    records.unshift(formData);
+    saveRecords();
+    render();
+    sensorForm.reset();
+    inputFirstName.focus();
+  });
+
+  clearAllBtn.addEventListener('click', function () {
+    if (records.length === 0) return;
+
+    if (confirm('Are you sure you want to delete all greenhouse entries?')) {
+      records = [];
+      hideError();
+      saveRecords();
+      render();
+    }
+  });
+
+  recordsList.addEventListener('click', function (event) {
+    const target = event.target.closest('.btn-delete');
+    if (!target) return;
+
+    const recordId = target.dataset.id;
+    records = records.filter(function (record) {
+      return record.id !== recordId;
+    });
+
+    hideError();
+    saveRecords();
+    render();
+  });
 
   function loadRecords() {
     try {
